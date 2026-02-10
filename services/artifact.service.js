@@ -1,22 +1,40 @@
-
 import Artifact from "../models/artifact.js";
 
-export const createArtifact = async ({
-    title, 
-    content,
-    userId
+/**
+ * Create a new artifact
+ */
+export const createArtifactService = async ({
+  title,
+  content,
+  userId
 }) => {
-    if (!title || !content) {
-        throw new Error("Title and content are required");
-    }
-    if (!userId) {
-        throw new Error("User ID is required");
-    }
-    const artifact = await Artifact.create({
-        title,
-        content,
-        author: userId
-    });
-    return artifact;
-}
+  if (!title || !content) {
+    throw new Error("Title and content are required");
+  }
 
+  const artifact = await Artifact.create({
+    title,
+    content,
+    author: userId
+  });
+
+  return artifact;
+};
+
+
+
+
+
+
+
+
+
+export const getArtifactsService = async ({ userId, role }) => {
+  if (role === "ADMIN") {
+    // Admin sees everything
+    return await Artifact.find().populate("author", "name email role");
+  }
+
+  // Non-admin sees only their own artifacts
+  return await Artifact.find({ author: userId });
+};

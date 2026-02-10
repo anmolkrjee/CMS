@@ -1,16 +1,13 @@
-
 import express from "express";
-import { authMiddleware } from "../middlewares/auth.middleware.js";
-import { createArtifactController } from "../controllers/artifact.controller.js";
+import { createArtifact ,getArtifacts} from "../controllers/artifact.controller.js";
+import { authMiddleware} from "../middlewares/auth.middleware.js";
+import { authorizeRoles } from "../middlewares/role.middleware.js";
 
 const router = express.Router();
 
-// Create artifact (protected)
-router.post("/", authMiddleware, createArtifactController);
-
-// Example route (public)
-router.get("/", (req, res) => {
-  res.status(200).json({ message: "Artifacts route working" });
-});
-
+/**
+ * Protected Artifact APIs
+ */
+router.post("/", authMiddleware, createArtifact);
+router.get("/", authMiddleware,authorizeRoles("ADMIN"), getArtifacts);
 export default router;
