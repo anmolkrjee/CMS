@@ -6,6 +6,9 @@ import artifactRoutes from "./routes/artifacts.route.js"
 import likes from "./routes/likes.routes.js";
 import comment from "./routes/comment.route.js";
 import cookieParser from "cookie-parser";
+import webhookRoutes from "./webhook/webhooks.js";
+
+import { testing } from "./cron/testing.js";
 const app = express();
 
 /* Middlewares */
@@ -13,6 +16,7 @@ app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(morgan("dev"));
+testing();
 
 
 
@@ -25,6 +29,8 @@ app.get("/", (req, res) => {
   });
 });
 
+
+app.use("/webhooks", webhookRoutes);
 app.use("/auth",authRoutes);
 app.use("/artifacts", artifactRoutes);
 app.use("/likes", likes);
