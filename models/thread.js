@@ -9,11 +9,20 @@ const threadSchema = new mongoose.Schema(
         required: true
       }
     ],
+
     lastMessage: {
-      type: String
+      type: String,
+      default: ""
+    },
+
+    lastMessageAt: {
+      type: Date,
+      default: Date.now
     }
   },
-  { timestamps: true }
+  {
+    timestamps: true
+  }
 );
 
 export default mongoose.model("Thread", threadSchema);

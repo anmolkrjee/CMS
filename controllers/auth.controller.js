@@ -4,9 +4,7 @@ import {
   loginService
 } from "../services/auth.service.js";
 
-/**
- * POST /auth/signup/initiate
- */
+
 export const initiateSignup = async (req, res) => {
   try {
     const { email } = req.body;
@@ -33,9 +31,7 @@ export const initiateSignup = async (req, res) => {
   }
 };
 
-/**
- * POST /auth/signup/verify
- */
+
 export const verifySignupOtp = async (req, res) => {
   try {
     const { email, otp, name, password,role } = req.body;
@@ -96,7 +92,7 @@ export const verifySignupOtp = async (req, res) => {
 // };
 
 
-// //cookies version  
+
 
 
 export const login = async (req, res) => {
@@ -105,12 +101,12 @@ export const login = async (req, res) => {
 
     const result = await loginService(email, password);
 
-    // Set token in HTTP-only cookie
+    
     res.cookie("token", result.token, {
       httpOnly: true,
       secure: false,
       sameSite: "lax",
-      maxAge: 60 * 60 * 1000 // 1 hour
+      maxAge: 60 * 60 * 1000 
     });
 
     res.status(200).json({

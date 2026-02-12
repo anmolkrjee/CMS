@@ -2,7 +2,7 @@ import { application } from 'express';
 import multer from 'multer';
 import path from 'path';
 
-//----------STORAGE CONFIGURATION---------------
+
 const storage = multer.diskStorage({
   destination: (req, res, cb) => {
     cb(null, 'uploads/');
@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
   },
 });
 
-//---------FILE VALIDATION--------------
+
 const fileFilter = (req, res, cb) => {
   if (
     (file.mimetype.startsWith('image/') || 
@@ -27,7 +27,7 @@ const fileFilter = (req, res, cb) => {
   }
 };
 
-// EXPORT MULTER INSTANCE
+
 export const upload = multer({
   storage,
   fileFilter,
